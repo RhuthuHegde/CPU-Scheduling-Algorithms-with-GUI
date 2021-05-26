@@ -1,3 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+    font: 17px;
+}
+
+
 .jumbotron {
     margin: 0px auto;
     padding: 70px 30px;
