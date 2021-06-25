@@ -15,6 +15,7 @@
     <!-- For icons -->
     <link rel="icon" href="favicon.png">
     <!-- Linking Font-awesome for fonts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Linking Stylesheet -->
@@ -26,6 +27,7 @@
 <header class="jumbotron" >
     <div class="container">
         <div class="row"> 
+<<<<<<< HEAD
             <div class="col-12 col-sm-6">
                 <h1>Scheduling Algorithms</h1>
                 <h3>Instructions :</h3>
@@ -36,35 +38,59 @@
                 </ol>
             </div>
             <div class="col-12 col-sm"></div>
+=======
+            <div class="row justify-content-md-center">
+                <!-- Instructions -->
+                <strong><h1>CPU Scheduling Algorithms</h1></strong>
+            </div>
+>>>>>>> 3912a8cfa21ea4930525b970d4478b9801221593
+        </div>
+        <div class="col-12 col-sm">
+            <h3>Instructions :</h3>
+            <ol class="instructions">
+                <li>Process ID is the tiebreaker.</li>
+                <li>When burst time is the criteria,total burst time is taken into consideration.</li>
+                <li>Context switch is not considered at the start and end of the processes.</li>
+            </ol>
         </div>
     </div>
 </header>
 
 <body>
     <!-- Algorithms Selection Form -->
-    <h3>Scheduling Algorithms:</h3>
-    <form id="algorithms-form">
-        <select name="algo" id="algo">
-            <option value="fcfs">First Come First Serve(FCFS)</option>
-            <option value="sjf">Shortest Job first(SJF)</option>
-            <option value="srjf">Shortest Remaining Job First(SRJF)</option>
-            <option value="rr">Round robin(RR)</option>
-            <option value="pp">Priority(Preemptive)</option>
-            <option value="pnp">Priority(Non Preemptive)</option>
-            <option value="mq">MultiLeveL Queue</option>
-        </select>
-    </form>
-    <br>
+    <div class="container">
+        <br>
+        <strong><h3>Choose the algorithm:</h3></strong>
+        <form id="algorithms-form">
+            <select class="form-control form-control">
+                <option value="fcfs">First Come First Serve(FCFS)</option>
+                <option value="sjf">Shortest Job first(SJF)</option>
+                <option value="srjf">Shortest Remaining Job First(SRJF)</option>
+                <option value="rr">Round robin(RR)</option>
+                <option value="pp">Priority(Preemptive)</option>
+                <option value="pnp">Priority(Non Preemptive)</option>
+                <option value="mq">MultiLeveL Queue</option>
+            </select>
+        </form>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </div>
 
     <!-- Tabular Column -->
-    <table class="main-table">
+    <table class="table table-stripped">
         <!-- Headings -->
-        <thead>
+        <thead class="thead-light">
             <tr>
-                <th class="process-id">Process ID</th>
-                <th class="priority hide">Priority</th>
-                <th class="arrival-time">Arrival Time</th>
-                <th class="process-time" colspan="1">Process Time</th>
+                <th scope = "col" class="process-id">Process ID</th>
+                <th scope="col" class="priority hide">Priority</th>
+                <th scope="col" class="arrival-time">Arrival Time</th>
+                <th scope="col" class="process-time" colspan="1">Process Time</th>
             </tr>
         </thead>
         <!-- Rest of the content -->
@@ -74,8 +100,23 @@
                 <td class="priority hide" rowspan="2"><input type="number" min="1" step="1" value="1"></td>
                 <td class="arrival-time" rowspan="2"><input type="number" min="0" step="1" value="0"> </td>
                 <td class="process-time cpu process-heading" colspan="">CPU</td>
-                <td class="process-btn"><button type="button" class="add-process-btn">+</button></td>
-                <td class="process-btn"><button type="button" class="remove-process-btn">-</button></td>
+                <div class="inline">
+                    <td class="process-btn"><button type="button" class="add-process-btn">+</button></td>
+                    <td class="process-btn"><button type="button" class="remove-process-btn">-</button></td>
+                </div>
+            </tr>
+            <tr>
+                <td class="process-time cpu process-input"><input type="number" min="1" step="1" value="1"> </td>
+            </tr>
+            <tr>
+                <td class="process-id" rowspan="2">P1</td>
+                <td class="priority hide" rowspan="2"><input type="number" min="1" step="1" value="1"></td>
+                <td class="arrival-time" rowspan="2"><input type="number" min="0" step="1" value="0"> </td>
+                <td class="process-time cpu process-heading" colspan="">CPU</td>
+                <div class="inline">
+                    <td class="process-btn"><button type="button" class="add-process-btn">+</button></td>
+                    <td class="process-btn"><button type="button" class="remove-process-btn">-</button></td>
+                </div>
             </tr>
             <tr>
                 <td class="process-time cpu process-input"><input type="number" min="1" step="1" value="1"> </td>
@@ -85,10 +126,10 @@
     <br>
 
     <!-- Buttons -->
-    <button type="button" class="add process button">Add Process</button>
-    <button type="button" class="remove process-button">Remove Process</button>
-    <button type="button" id="calculate">Calculate</button>
-    <button type="number" id="reset" onclick="window.location.reload();">Reset the values</button>
+    <button type="button" class="btn btn-success" class="add process button">Add Process</button>
+    <button type="button" class="btn btn-danger" class="remove process-button">Remove Process</button>
+    <button type="button" class="btn btn-primary" id="calculate">Calculate</button>
+    <button type="button" class="btn btn-info" id="reset" onclick="window.location.reload();">Reset the values</button>
     <div id="output"></div> 
 
     <!-- JavaScript tags -->
