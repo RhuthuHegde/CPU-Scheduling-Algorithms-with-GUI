@@ -46,7 +46,7 @@
         <br>
         <strong><h3>Choose the algorithm:</h3></strong>
         <form id="algorithms-form">
-            <select class="form-control form-control">
+            <select name="algo" id="algo">
                 <option value="fcfs">First Come First Serve(FCFS)</option>
                 <option value="sjf">Shortest Job first(SJF)</option>
                 <option value="srjf">Shortest Remaining Job First(SRJF)</option>
@@ -67,14 +67,14 @@
     </div>
 
     <!-- Tabular Column -->
-    <table class="table table-stripped">
+    <table class="main-table">
         <!-- Headings -->
         <thead class="thead-light">
             <tr>
-                <th scope = "col" class="process-id">Process ID</th>
-                <th scope="col" class="priority hide">Priority</th>
-                <th scope="col" class="arrival-time">Arrival Time</th>
-                <th scope="col" class="process-time" colspan="1">Process Time</th>
+                <th class="process-id">Process ID</th>
+                <th class="priority hide">Priority</th>
+                <th class="arrival-time">Arrival Time</th>
+                <th class="process-time" colspan="1">Process Time</th>
             </tr>
         </thead>
         <!-- Rest of the content -->
@@ -84,36 +84,35 @@
                 <td class="priority hide" rowspan="2"><input type="number" min="1" step="1" value="1"></td>
                 <td class="arrival-time" rowspan="2"><input type="number" min="0" step="1" value="0"> </td>
                 <td class="process-time cpu process-heading" colspan="">CPU</td>
-                <div class="inline">
+                <!-- <div class="inline"> -->
                     <td class="process-btn"><button type="button" class="add-process-btn">+</button></td>
                     <td class="process-btn"><button type="button" class="remove-process-btn">-</button></td>
-                </div>
+                <!-- </div> -->
             </tr>
             <tr>
                 <td class="process-time cpu process-input"><input type="number" min="1" step="1" value="1"> </td>
             </tr>
-            <tr>
-                <td class="process-id" rowspan="2">P1</td>
-                <td class="priority hide" rowspan="2"><input type="number" min="1" step="1" value="1"></td>
-                <td class="arrival-time" rowspan="2"><input type="number" min="0" step="1" value="0"> </td>
-                <td class="process-time cpu process-heading" colspan="">CPU</td>
-                <div class="inline">
-                    <td class="process-btn"><button type="button" class="add-process-btn">+</button></td>
-                    <td class="process-btn"><button type="button" class="remove-process-btn">-</button></td>
-                </div>
-            </tr>
-            <tr>
-                <td class="process-time cpu process-input"><input type="number" min="1" step="1" value="1"> </td>
-            </tr>
+
         </tbody>
     </table>
     <br>
 
     <!-- Buttons -->
-    <button type="button" class="btn btn-success" class="add process button">Add Process</button>
-    <button type="button" class="btn btn-danger" class="remove process-button">Remove Process</button>
-    <button type="button" class="btn btn-primary" id="calculate">Calculate</button>
-    <button type="button" class="btn btn-info" id="reset" onclick="window.location.reload();">Reset the values</button>
+    <button type="button" class="add-btn">Add Process</button>
+    <button type="button" class="remove-btn">Remove Process</button>
+        <!-- <div id="context-switch-div">
+            <br>
+            <label for="context-switch">Context Switch Time : </label>
+            <input type="number" name="Context Switch" id="context-switch" min="0" step="1" value="0">
+        </div> -->
+        <div id="time-quantum" class="hide">
+            <br>
+            <label for="tq">Time Quantum : </label>
+            <input type="number" name="Time Quantum" id="tq" min="1" step="1" value="1">
+        </div>
+        <br>
+    <button type="button" id="calculate">Calculate</button>
+    <button type="button" id="reset" onclick="window.location.reload();">Reset the values</button>
     <div id="output"></div> 
 
     <!-- JavaScript tags -->
@@ -121,6 +120,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
 
     <!-- Main JavaScript file -->
-    <script src="app.js"></script>
+    <script src="functions.js"></script>
 </body>
 </html>
