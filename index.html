@@ -57,19 +57,13 @@
             </select>
         </form>
     </br>
-    </br>
-    </br>
-    </br>
-    </br>
-    </br>
-    </br>
-    </br>
+    <br>
     </div>
 
     <!-- Tabular Column -->
     <table class="main-table">
         <!-- Headings -->
-        <thead class="thead-light">
+        <thead class="thread-light">
             <tr>
                 <th class="process-id">Process ID</th>
                 <th class="priority hide">Priority</th>
@@ -92,7 +86,6 @@
             <tr>
                 <td class="process-time cpu process-input"><input type="number" min="1" step="1" value="1"> </td>
             </tr>
-
         </tbody>
     </table>
     <br>
@@ -110,7 +103,7 @@
             <label for="tq">Time Quantum : </label>
             <input type="number" name="Time Quantum" id="tq" min="1" step="1" value="1">
         </div>
-        <br>
+        <!-- <br> -->
     <button type="button" id="calculate">Calculate</button>
     <button type="button" id="reset" onclick="window.location.reload();">Reset the values</button>
     <div id="output"></div> 
