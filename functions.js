@@ -1,16 +1,17 @@
-// let priorityPreference = 1; //priority preferences change
-// document.getElementById("priority-toggle-btn").onclick = () => {
-//     let currentPriorityPreference = document.getElementById("priority-preference").innerText;
-//     if (currentPriorityPreference == "high") {
-//         document.getElementById("priority-preference").innerText = "low";
-//     } else {
-//         document.getElementById("priority-preference").innerText = "high";
-//     }
-//     priorityPreference *= -1;
-// };
+let priorityPreference = 1; //priority preferences change
+document.getElementById("priority-toggle-btn").onclick = () => {
+    let currentPriorityPreference = document.getElementById("priority-preference").innerText;
+    if (currentPriorityPreference == "high") {
+        document.getElementById("priority-preference").innerText = "low";
+    } else {
+        document.getElementById("priority-preference").innerText = "high";
+    }
+    priorityPreference *= -1;
+};
 
 let selectedAlgorithm = document.getElementById('algo');
-
+//time quantum is included only for round robin algorithm and hidden for rest of them, the time for which a process can be 
+// executed at a time when the cpu is given to it.
 function checkTimeQuantumInput() {
     let timequantum = document.querySelector("#time-quantum").classList;
     if (selectedAlgorithm.value == 'rr') {
@@ -19,7 +20,7 @@ function checkTimeQuantumInput() {
         timequantum.add("hide");
     }
 }
-
+// to check the priority, if the process is preemtve or non preemptive
 function checkPriorityCell() {
     let prioritycell = document.querySelectorAll(".priority");
     if (selectedAlgorithm.value == "pnp" || selectedAlgorithm.value == "pp") {
@@ -32,7 +33,7 @@ function checkPriorityCell() {
         });
     }
 }
-
+//based on the algorithm selected the functions are executed
 selectedAlgorithm.onchange = () => {
     checkTimeQuantumInput();
     checkPriorityCell();
@@ -88,7 +89,7 @@ function lcmAll() {
     }
     return result;
 }
-
+//to update the process or the burst time of the process
 function updateColspan() { //update burst time cell colspan
     let totalColumns = lcmAll();
     let processHeading = document.querySelector("thead .process-time");
@@ -108,7 +109,7 @@ function updateColspan() { //update burst time cell colspan
         }
     }
 }
-
+//to add any input-output time if its part of the process
 function addremove() { //add remove bt-io time pair add event listener
     let processTimes = [];
     let table = document.querySelector(".main-table");
@@ -169,7 +170,7 @@ function addremove() { //add remove bt-io time pair add event listener
     }
 }
 addremove();
-
+//to add new process in the table
 function addProcess() {
     process++;
     let rowHTML1 = `
@@ -191,7 +192,7 @@ function addProcess() {
     updateColspan();
     inputOnChange();
 }
-
+//to delete the process from the table
 function deleteProcess() {
     let table = document.querySelector(".main-table");
     if (process > 1) {
@@ -259,7 +260,7 @@ class TimeLog {
         this.move = []; //0-remain->ready 1-ready->running 2-running->terminate 3-running->ready 4-running->block 5-block->ready
     }
 }
-
+//setting the algorithm from the drop down list
 function setAlgorithmNameType(input, algorithm) {
     input.algorithm = algorithm;
     switch (algorithm) {
@@ -279,7 +280,7 @@ function setAlgorithmNameType(input, algorithm) {
             break;
     }
 }
-
+//to push value into the table
 function setInput(input) {
     for (let i = 1; i <= process; i++) {
         input.processId.push(i - 1);
@@ -309,6 +310,7 @@ function setInput(input) {
     input.timeQuantum = Number(document.querySelector("#tq").value);
 }
 
+//gives out the process time,burst time
 function setUtility(input, utility) {
     utility.remainingProcessTime = input.processTime.slice();
     utility.remainingBurstTime = input.totalBurstTime.slice();
@@ -351,7 +353,7 @@ function reduceTimeLog(timeLog) {
     }
     return newTimeLog;
 }
-
+//outputs the average values of waiting,turn around,completion,response
 function outputAverageTimes(output) {
     let avgct = 0;
     output.completionTime.forEach((element) => {
@@ -375,7 +377,7 @@ function outputAverageTimes(output) {
     avgrt /= process;
     return [avgct, avgtat, avgwt, avgrt];
 }
-
+// displays the turnaround time and waiting time for the process
 function setOutput(input, output) {
     //set turn around time and waiting time
     for (let i = 0; i < process; i++) {
@@ -390,7 +392,8 @@ function setOutput(input, output) {
 function getDate(sec) {
     return (new Date(0, 0, 0, 0, sec / 60, sec % 60));
 }
-
+//function which makes the gantt chart 
+// cs=context switching, empty= no process , p=normal process
 function showGanttChart(output, outputDiv) {
     let ganttChartHeading = document.createElement("h3");
     ganttChartHeading.innerHTML = "Gantt Chart";
@@ -459,7 +462,7 @@ function showGanttChart(output, outputDiv) {
     }
     outputDiv.appendChild(ganttChart);
 }
-
+//provides the visualization of the processes using the timeline chart
 function showTimelineChart(output, outputDiv) {
     let timelineChartHeading = document.createElement("h3");
     timelineChartHeading.innerHTML = "Timeline Chart";
@@ -504,7 +507,7 @@ function showTimelineChart(output, outputDiv) {
     }
     outputDiv.appendChild(timelineChart);
 }
-
+// displays the final tble in the end with all the parameters
 function showFinalTable(input, output, outputDiv) {
     let finalTableHeading = document.createElement("h3");
     finalTableHeading.innerHTML = "Final Table";
@@ -565,14 +568,14 @@ function showFinalTable(input, output, outputDiv) {
         outputDiv.appendChild(cs);
     }
 }
-
+//gives the arrow colour
 function toggleTimeLogArrowColor(timeLog, color) {
     let timeLogMove = ['remain-ready', 'ready-running', 'running-terminate', 'running-ready', 'running-block', 'block-ready'];
     timeLog.move.forEach(element => {
         document.getElementById(timeLogMove[element]).style.color = color;
     });
 }
-
+// shows the output in the timelog, by transferring the processes from one state to another based on time
 function nextTimeLog(timeLog) {
     let timeLogTableDiv = document.getElementById("time-log-table-div");
 
@@ -662,7 +665,7 @@ function nextTimeLog(timeLog) {
     timeLogTableDiv.appendChild(terminateTable);
     document.getElementById("time-log-time").innerHTML = "Time : " + timeLog.time;
 }
-
+//shows the complete process by visualising from waiting,ready,running and terminated state
 function showTimeLog(output, outputDiv) {
     reduceTimeLog(output.timeLog);
     let timeLogDiv = document.createElement("div");
@@ -712,7 +715,7 @@ function showTimeLog(output, outputDiv) {
         }, 1000);
     };
 }
-
+//shows the round robin stats in the algorithm chart
 function showRoundRobinChart(outputDiv) {
     let roundRobinInput = new Input();
     setInput(roundRobinInput);
@@ -814,7 +817,7 @@ function showRoundRobinChart(outputDiv) {
     });
 }
 
-
+//shows the algorithm chart with completion,turn around,waiting and response times
 function showAlgorithmChart(outputDiv) {
     let algorithmArray = ["fcfs", "sjf", "srtf", "ljf", "lrtf", "rr", "pnp", "pp"];
     let algorithmNameArray = ["FCFS", "SJF", "SRTF", "LJF", "LRTF", "RR", "PNP", "PP"];
@@ -898,7 +901,7 @@ function showAlgorithmChart(outputDiv) {
         }
     });
 }
-
+//makes the ganttchart,timeline chart,final table and the time log of the process for a better depiction
 function showOutput(input, output, outputDiv) {
     showGanttChart(output, outputDiv);
     outputDiv.insertAdjacentHTML("beforeend", "<hr>");
@@ -914,7 +917,7 @@ function showOutput(input, output, outputDiv) {
     }
     showAlgorithmChart(outputDiv);
 }
-
+// performs the cpu scheduling and also helps in the functioning of the time log
 function CPUScheduler(input, utility, output) {
     function updateReadyQueue(currentTimeLog) {
         let candidatesRemain = currentTimeLog.remain.filter((element) => input.arrivalTime[element] <= currentTimeLog.time);
@@ -1086,7 +1089,7 @@ function CPUScheduler(input, utility, output) {
     }
     output.schedule.pop();
 }
-
+// function which calculates the output and displays it on screen
 function calculateOutput() {
     let outputDiv = document.getElementById("output");
     outputDiv.innerHTML = "";
@@ -1100,6 +1103,7 @@ function calculateOutput() {
     showOutput(mainInput, mainOutput, outputDiv);
 }
 
+//goes here first on clicking calculate
 document.getElementById("calculate").onclick = () => {
     calculateOutput();
 };
