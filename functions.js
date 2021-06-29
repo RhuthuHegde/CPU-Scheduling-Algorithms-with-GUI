@@ -20,7 +20,7 @@ function checkTimeQuantumInput() {
         timequantum.add("hide");
     }
 }
-// to check the priority, if the process is preemtve or non preemptive
+// to check the priority, if the process is preemptive or non preemptive
 function checkPriorityCell() {
     let prioritycell = document.querySelectorAll(".priority");
     if (selectedAlgorithm.value == "pnp" || selectedAlgorithm.value == "pp") {
@@ -665,56 +665,6 @@ function nextTimeLog(timeLog) {
     timeLogTableDiv.appendChild(terminateTable);
     document.getElementById("time-log-time").innerHTML = "Time : " + timeLog.time;
 }
-//shows the complete process by visualising from waiting,ready,running and terminated state
-function showTimeLog(output, outputDiv) {
-    reduceTimeLog(output.timeLog);
-    let timeLogDiv = document.createElement("div");
-    timeLogDiv.id = "time-log-div";
-    timeLogDiv.style.height = (15 * process) + 300 + "px";
-    let startTimeLogButton = document.createElement("button");
-    startTimeLogButton.id = "start-time-log";
-    startTimeLogButton.innerHTML = "Start Time Log";
-    timeLogDiv.appendChild(startTimeLogButton);
-    outputDiv.appendChild(timeLogDiv);
-
-    document.querySelector("#start-time-log").onclick = () => {
-        timeLogStart = 1;
-        let timeLogDiv = document.getElementById("time-log-div");
-        let timeLogOutputDiv = document.createElement("div");
-        timeLogOutputDiv.id = "time-log-output-div";
-
-        let timeLogTableDiv = document.createElement("div");
-        timeLogTableDiv.id = "time-log-table-div";
-
-        let timeLogTime = document.createElement("p");
-        timeLogTime.id = "time-log-time";
-
-        timeLogOutputDiv.appendChild(timeLogTableDiv);
-        timeLogOutputDiv.appendChild(timeLogTime);
-        timeLogDiv.appendChild(timeLogOutputDiv);
-        let index = 0;
-        let timeLogInterval = setInterval(() => {
-            nextTimeLog(output.timeLog[index]);
-            if (index != output.timeLog.length - 1) {
-                setTimeout(() => {
-                    toggleTimeLogArrowColor(output.timeLog[index], 'red');
-                    setTimeout(() => {
-                        toggleTimeLogArrowColor(output.timeLog[index], 'black');
-                    }, 600);
-                }, 200);
-            }
-            index++;
-            if (index == output.timeLog.length) {
-                clearInterval(timeLogInterval);
-            }
-            document.getElementById("calculate").onclick = () => {
-                clearInterval(timeLogInterval);
-                document.getElementById("time-log-output-div").innerHTML = "";
-                calculateOutput();
-            }
-        }, 1000);
-    };
-}
 //shows the round robin stats in the algorithm chart
 function showRoundRobinChart(outputDiv) {
     let roundRobinInput = new Input();
@@ -782,11 +732,6 @@ function showRoundRobinChart(outputDiv) {
                 borderColor: '#109618',
                 data: roundRobinChartData[3]
             },
-            // {
-            //     label: "Context Switches",
-            //     borderColor: '#990099',
-            //     data: roundRobinChartData[4]
-            // },
             ]
         },
         options: {
@@ -817,90 +762,7 @@ function showRoundRobinChart(outputDiv) {
     });
 }
 
-//shows the algorithm chart with completion,turn around,waiting and response times
-function showAlgorithmChart(outputDiv) {
-    let algorithmArray = ["fcfs", "sjf", "srtf", "ljf", "lrtf", "rr", "pnp", "pp"];
-    let algorithmNameArray = ["FCFS", "SJF", "SRTF", "LJF", "LRTF", "RR", "PNP", "PP"];
-    let algorithmChartData = [
-        [],
-        [],
-        [],
-        []
-    ];
-    algorithmArray.forEach(currentAlgorithm => {
-        let chartInput = new Input();
-        let chartUtility = new Utility();
-        let chartOutput = new Output();
-        setInput(chartInput);
-        setAlgorithmNameType(chartInput, currentAlgorithm);
-        setUtility(chartInput, chartUtility);
-        CPUScheduler(chartInput, chartUtility, chartOutput);
-        setOutput(chartInput, chartOutput);
-        for (let i = 0; i < 4; i++) {
-            algorithmChartData[i].push(chartOutput.averageTimes[i]);
-        }
-    });
-    let algorithmChartCanvas = document.createElement('canvas');
-    algorithmChartCanvas.id = "algorithm-chart";
-    let algorithmChartDiv = document.createElement('div');
-    algorithmChartDiv.id = "algorithm-chart-div";
-    algorithmChartDiv.style.height = "40vh";
-    algorithmChartDiv.style.width = "80%";
-    algorithmChartDiv.appendChild(algorithmChartCanvas);
-    outputDiv.appendChild(algorithmChartDiv);
-    new Chart(document.getElementById('algorithm-chart'), {
-        type: 'bar',
-        data: {
-            labels: algorithmNameArray,
-            datasets: [{
-                label: "Completion Time",
-                backgroundColor: '#3366CC',
-                data: algorithmChartData[0]
-            },
-            {
-                label: "Turn Around Time",
-                backgroundColor: '#DC3912',
-                data: algorithmChartData[1]
-            },
-            {
-                label: "Waiting Time",
-                backgroundColor: '#FF9900',
-                data: algorithmChartData[2]
-            },
-            {
-                label: "Response Time",
-                backgroundColor: '#109618',
-                data: algorithmChartData[3]
-            }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: ['Algorithm', 'Comparison of Completion, Turn Around, Waiting and Response Time', 'The Lower The Better']
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }],
-                xAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Algorithms'
-                    }
-                }]
-            },
-            legend: {
-                display: true,
-                labels: {
-                    fontColor: 'black'
-                }
-            }
-        }
-    });
-}
+
 //makes the ganttchart,timeline chart,final table and the time log of the process for a better depiction
 function showOutput(input, output, outputDiv) {
     showGanttChart(output, outputDiv);
@@ -978,13 +840,6 @@ function CPUScheduler(input, utility, output) {
                         case 'pnp':
                         case 'pp':
                             return priorityPreference * (input.priority[a] - input.priority[b]);
-                        // case 'hrrn':
-                        //     function responseRatio(id) {
-                        //         let s = utility.remainingBurstTime[id];
-                        //         let w = currentTimeLog.time - input.arrivalTime[id] - s;
-                        //         return 1 + w / s;
-                        //     }
-                        //     return responseRatio(b) - responseRatio(a);
                     }
                 });
                 found = candidates[0];
